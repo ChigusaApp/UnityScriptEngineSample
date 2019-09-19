@@ -1,0 +1,48 @@
+﻿#pragma once
+
+/// <summary>
+/// Music の種類
+/// </summary>
+enum MusicBaseType
+{
+    /// <summary>
+    /// ホーム
+    /// </summary>
+    Home,
+
+    /// <summary>
+    /// 最大値
+    /// </summary>
+    MusicBaseTypeMax,
+}
+
+/// <summary>
+/// SE の種類
+/// </summary>
+enum SeBaseType
+{
+    /// <summary>
+    /// UI 選択
+    /// </summary>
+    Select,
+
+    /// <summary>
+    /// UI 決定
+    /// </summary>
+    Decide,
+
+    /// <summary>
+    /// UI キャンセル
+    /// </summary>
+    Discard,
+
+    /// <summary>
+    /// UI 戻る
+    /// </summary>
+    Return,
+
+    /// <summary>
+    /// 最大値
+    /// </summary>
+    SeBaseTypeMax,
+}
