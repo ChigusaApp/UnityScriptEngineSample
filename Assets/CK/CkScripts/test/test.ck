@@ -6,6 +6,7 @@
 void main()
 {
     Print("main start");
+    Print(DeltaTime);
     Print("main end");
 }
 

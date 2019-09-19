@@ -1,0 +1,257 @@
+﻿
+
+変数について
+・内部変数
+・外部変数
+
+
+変数の型
+・int
+　整数値（３２ビット）
+・float
+　小数値（３２ビット）
+　1.1 or 1. or 1.1f or 1.f or 1f
+・int
+　ブール値（３２ビット）
+　true or false
+・string
+　文字列
+　""（"は\"、改行は\nで指定）
+　@""（"は""で指定）
+・構造体あり
+・参照あり(&)
+　引数のみ
+　void Func(int &arg), void Func(int &arg[])
+　Func(value), void Func(values)
+　戻り値には使えない
+・一部voidあり
+
+
+演算子
+・+ - * / % == != > < >= <= ! ~ & && | || ( ) << >>
+　構造体同士の四則演算は、メンバーそれぞれで実行する（文字列を除く）
+
+キャスト
+・整数へ
+　(int)小数
+・小数へ
+　(float)整数
+
+
+変数の定義
+・型　名称｛＝値｝
+　int var = 1;
+
+
+定数
+・整数値（３２ビット）
+　小数値（３２ビット）
+　文字列
+
+
+配列
+・１次配列のみ
+　int list[10] = { 0, 10, 2 }
+・省略可能（0を指定しても同じ）
+　int list[] = { 0, 10, 2 }
+・構造体の初期化（nullは使えない）
+　〇：Vector3 list[] = { {0, 0, 0}, {0, 0, 0} }
+　〇：Vector3 list[] = { 0, 0, 0, 0, 0, 0 }
+　〇：Vector3 list[] = { {0, 0}, {0} }
+　×：Vector3 list[] = { {}, {0, 0, 0} }
+　×：Vector3 list[] = null
+・サイズを調べる（構造体のメンバーにLengthがある場合は、メンバーが優先される）
+　〇：list.Length
+　×：list[0].Length　※list.Lengthと同じになる
+　〇：GetList().Length
+　※すでに宣言されている配列に限る
+　※sizeof(variable)にする？
+・通常の変数に[0]をつけ足しても同じ意味になる（逆も同じ）※できなくする？
+　list == list[0]  or  list[0] == list
+・戻り値（[]や*は記述しない、受け側は固定長の配列でサイズは戻り値より大きい必要がある）
+　〇：int Func(); return list; return Func(); { int list[3] = Func(); }
+　×：int[] Func(); int* Func(); return &list; return &list[0]; return &list[0];
+・戻り値（直接の初期化で添え字の省略はできない）
+　〇：int list[3] = Func();
+　×：int list[] = Func();
+・引数には使えない
+　×：void Func(int list);
+　×：void Func(int[] list);
+　×：void Func(int* list);
+
+
+ブーリアン
+・true(1)とfalse(0)のみ
+
+
+NULL
+・null(0)のみ
+　nullは0として扱われることもあるが、0をnullとして扱うことはできない
+・戻り値としてnullを利用することはできる
+　return null;
+・nullとの比較はintの0として扱われない
+　〇：if(0 == null)
+・構造体とnullの比較は無駄なpushが残る？（構造体のnullは実装されていない）
+　△：if(struct == null)
+・戻り値の構造体とnullの比較は無駄なpushが残る？（構造体がnullでない場合は構造体の最初の値と比較されてしまう）
+　△：if(GetStruct() == null)　※nullでない場合は構造体の最初の値と比較されてしまう
+　×：if(null == GetStruct())　※左側の場合は正確に比較できない
+
+
+構造体
+・struct 名称
+　{
+　　変数定義
+　}
+・"名称.メンバー変数名"のドットで使用
+
+
+列挙定数
+・enum 名称
+　{
+　　メンバー名
+　}
+・"名称.メンバー名"のドットで使用
+・型としての利用はできない
+
+
+コメント文
+・//
+　行末までコメント
+・/* ～ */
+　囲まれた部分をコメント
+
+
+ブロック文
+・｛｝で囲まれた文
+
+
+if文
+・if( 条件 )
+　　文
+　else if( 条件 )
+　　文
+　else
+　　文
+
+
+while文
+・while( 条件 )
+
+
+do - while文
+・do
+　　文
+　while( 条件 )
+
+
+for文
+・for( 初期化; 継続条件; カウンタ変数の更新 )
+　　文
+
+
+foreach文
+・foreach( 一時代入変数名 in リスト )
+　　文
+
+
+switch文
+・switch( int or float or 文字列 )
+	case 定数
+		break;
+
+
+yield文（実行の中断）
+・yield;
+　戻り値なし
+・yield 戻り値;
+　戻り値あり
+
+
+goto文
+・goto LabelName:
+　ラベルはgotoの前でも後でも可
+　同一関数内の移動のみ
+
+
+ラベル
+・LabelName:
+　コロンで終わる文字列
+　goto文でのみ利用できる
+
+
+システム関数
+・GetGlobalSize()関数
+　GetGlobalSize( 参照変数 )
+　引数で使用した参照変数のサイズを簡易的に取得する（デバッグ用）
+・Print()関数
+　コンソール表示用
+　Print( 整数 )
+　Print( 小数 )
+　Print( 文字列 )
+・ToString()関数
+　文字列へ変換
+　ToString( 整数 )
+　ToString( 小数 )
+・GlobalTextReplace()関数
+　文字列中のグローバル変数（配列を除く）を値に変換する。
+　グローバル変数が見つからない場合は、そのままになる。
+　GlobalTextReplace( 文字列 )
+　"x = {x}, name = {var.name}, dammy = {dammy}"  =>  "x = 1, var.name = Smith, dammy = {dammy}"
+　配列は最初のメンバーのみ有効
+　OK : ar[0], OK : star[0].x, NG : st.ar[0], NG : star[0].ar[0]
+・Min()関数
+	最小値の取得
+	int Min( int, int )
+	float Min( float, float )
+・Max()関数
+	最大値の取得
+	int Max( int, int )
+	float Max( float, float )
+//・IntParse()関数
+//・FloatParse()関数
+//・Clamp()関数
+//・Clamp01()関数
+//・Lerp()関数
+//・Abs()関数
+//・IsClamp()関数
+
+関数の定義
+・戻り値の型 関数名( 引数 )
+・int func( void )
+　{
+　    return 0;
+　}
+・引数の自動型判別が少しあいまいかもしれない
+・戻り値にnullを指定するとサイズ0の配列や構造体になる
+
+関数の呼び出し
+・関数名( 引数 )
+　〇：Func();
+　〇：Func().Member;
+　〇：Func()[0];
+　〇：Func()[0].Member;
+
+
+外部宣言
+・extern 宣言;
+　extern int var;
+　extern void func();
+・GetGlobalVariableIndex("")での取得で配列は１つ目まで
+  〇 : "ar[0]"
+  〇 : "st[0].y"
+  × : "st.y[0]"
+  × : "st[0].y[0]"
+
+
+include
+・#include "filepath"
+　相対パスも有効
+・#pragma once
+　この文がでた時点でファイルが処理済みの場合は以降の文を無視する
+
+
+リンク済みファイルの再リンク
+・リンクしてできたファイルを、リンク対象のオブジェクトとして扱える
+
+
